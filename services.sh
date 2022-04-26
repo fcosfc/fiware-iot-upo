@@ -23,7 +23,7 @@ if (( $# < 1 )); then	echo "Illegal number of parameters"
 fi
 
 stoppingContainers () {
-	CONTAINERS=$(docker ps --filter "label=com.wordpress.fcosfc: fiware-iot-upo" -aq)
+	CONTAINERS=$(docker ps --filter "label=com.wordpress.fcosfc=fiware-iot-upo" -aq)
 	if [[ -n $CONTAINERS ]]; then 
 		echo "Stopping containers"
 		docker rm -f $CONTAINERS || true
@@ -33,7 +33,7 @@ stoppingContainers () {
 		echo "Removing old volumes"
 		docker volume rm $VOLUMES || true
 	fi
-	NETWORKS=$(docker network ls  --filter "label=com.wordpress.fcosfc: fiware-iot-upo" -q) 
+	NETWORKS=$(docker network ls  --filter "label=com.wordpress.fcosfc=fiware-iot-upo" -q) 
 	if [[ -n $NETWORKS ]]; then 
 		echo "Removing tutorial networks"
 		docker network rm $NETWORKS || true
