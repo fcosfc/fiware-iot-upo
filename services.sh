@@ -22,6 +22,13 @@ if (( $# < 1 )); then	echo "Illegal number of parameters"
 	exit 1
 fi
 
+loadData () {
+	docker run --rm -v $(pwd)/import-initial-context-data.sh:/import-initial-context-data.sh \
+		--network fiware_default \
+		--entrypoint /bin/ash curlimages/curl import-initial-context-data.sh
+	echo ""
+}
+
 stoppingContainers () {
 	CONTAINERS=$(docker ps --filter "label=com.wordpress.fcosfc=fiware-iot-upo" -aq)
 	if [[ -n $CONTAINERS ]]; then 
@@ -90,6 +97,7 @@ case "${command}" in
 		${dockerCmd} up -d --remove-orphans
 		waitForMongo
 		addDatabaseIndex
+		loadData
 		displayServices
 		;;
 	"stop")

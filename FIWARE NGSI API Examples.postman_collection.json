@@ -1,0 +1,269 @@
+{
+	"info": {
+		"_postman_id": "e22a562e-fb9f-470c-8686-cdfda74d7e41",
+		"name": "FIWARE NGSI API Examples",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create City",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"urn:ngsi-ld:City:Tarifa\",\n    \"type\": \"City\",\n    \"temperature\": {\n        \"type\": \"Number\",\n        \"value\": 18,\n        \"metadata\": {\n    \t\t\"verified\": {\n        \t\t\"value\": false,\n        \t\t\"type\": \"Boolean\"\n    \t\t}\n    \t}\n    },\n    \"location\": {\n        \"type\": \"geo:json\",\n        \"value\": {\n             \"type\": \"Point\",\n             \"coordinates\": [36.01393, -5.60695]\n        }\n    },\n    \"name\": {\n        \"type\": \"Text\",\n        \"value\": \"Tarifa\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{orion}}/v2/entities/",
+					"protocol": "http",
+					"host": [
+						"{{orion}}"
+					],
+					"path": [
+						"v2",
+						"entities",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Cities",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"actionType\": \"append\",\n    \"entities\": [\n  \t    {\n            \"id\": \"urn:ngsi-ld:City:SanRoque\",\n            \"type\": \"City\",\n            \"temperature\": {\n                \"type\": \"Number\",\n                \"value\": 19.5,\n                \"metadata\": {\n    \t\t        \"verified\": {\n        \t\t        \"value\": true,\n        \t\t        \"type\": \"Boolean\"\n    \t\t        }\n    \t        }\n            },\n            \"location\": {\n                \"type\": \"geo:json\",\n                \"value\": {\n                    \"type\": \"Point\",\n                    \"coordinates\": [36.21067, -5.38415]\n                }\n            },\n            \"name\": {\n                \"type\": \"Text\",\n                \"value\": \"San Roque\"\n            }\n        },\n  \t    {\n            \"id\": \"urn:ngsi-ld:City:LaLinea\",\n            \"type\": \"City\",\n            \"temperature\": {\n                \"type\": \"Number\",\n                \"value\": 19.5,\n                \"metadata\": {\n    \t\t        \"verified\": {\n        \t\t        \"value\": true,\n        \t\t        \"type\": \"Boolean\"\n    \t\t        }\n    \t        }\n            },\n            \"location\": {\n                \"type\": \"geo:json\",\n                \"value\": {\n                    \"type\": \"Point\",\n                    \"coordinates\": [36.16809, -5.34777]\n                }\n            },\n            \"name\": {\n                \"type\": \"Text\",\n                \"value\": \"La Línea de la Concepción\"\n            }\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{orion}}/v2/op/update",
+					"protocol": "http",
+					"host": [
+						"{{orion}}"
+					],
+					"path": [
+						"v2",
+						"op",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update City Temperature",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"value\": 22.0,\n    \"type\": \"Number\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{orion}}/v2/entities/urn:ngsi-ld:City:Algeciras/attrs/temperature",
+					"protocol": "http",
+					"host": [
+						"{{orion}}"
+					],
+					"path": [
+						"v2",
+						"entities",
+						"urn:ngsi-ld:City:Algeciras",
+						"attrs",
+						"temperature"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieving Context Information",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{orion}}/v2/entities/?type=City&options=keyValues&attrs=name,temperature",
+					"protocol": "http",
+					"host": [
+						"{{orion}}"
+					],
+					"path": [
+						"v2",
+						"entities",
+						""
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "City"
+						},
+						{
+							"key": "options",
+							"value": "keyValues"
+						},
+						{
+							"key": "attrs",
+							"value": "name,temperature"
+						}
+					]
+				},
+				"description": "This example returns the full data context"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtain City by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{orion}}/v2/entities/urn:ngsi-ld:City:SanRoque?options=keyValues",
+					"protocol": "http",
+					"host": [
+						"{{orion}}"
+					],
+					"path": [
+						"v2",
+						"entities",
+						"urn:ngsi-ld:City:SanRoque"
+					],
+					"query": [
+						{
+							"key": "options",
+							"value": "keyValues",
+							"description": "* `keyValues` option in order to get a more compact and brief representation, including just attribute values\n* `values` option combined with a list of attribute values  `attrs`  for an ordered list of attributes only"
+						},
+						{
+							"key": "type",
+							"value": "Store",
+							"description": "Entity type, to avoid ambiguity in case there are several entities with the same entity id",
+							"disabled": true
+						},
+						{
+							"key": "attrs",
+							"value": "name",
+							"description": "Ordered list of attribute names to display",
+							"disabled": true
+						}
+					]
+				},
+				"description": "This example returns the context data of `store1`. The `id` of the entity should be unique or the `type` parameter should also be used.\n\nBecause of the use of the `options=keyValues`, the response consists of JSON only without the attribute `type` elements."
+			},
+			"response": []
+		},
+		{
+			"name": "Filter Temperatures in Near Cities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{orion}}/v2/entities/?geometry=point&options=keyValues&attrs=temperature&type=City&coords=36.2999883,-5.3059168&georel=near;minDistance:10",
+					"protocol": "http",
+					"host": [
+						"{{orion}}"
+					],
+					"path": [
+						"v2",
+						"entities",
+						""
+					],
+					"query": [
+						{
+							"key": "geometry",
+							"value": "point"
+						},
+						{
+							"key": "options",
+							"value": "keyValues",
+							"description": "* `keyValues` option in order to get a more compact and brief representation, including just attribute values\n* `values` option combined with a list of attribute values  `attrs`  for an ordered list of attributes only"
+						},
+						{
+							"key": "attrs",
+							"value": "temperature",
+							"description": "Ordered list of attribute names to display"
+						},
+						{
+							"key": "type",
+							"value": "City"
+						},
+						{
+							"key": "coords",
+							"value": "36.2999883,-5.3059168"
+						},
+						{
+							"key": "georel",
+							"value": "near;minDistance:10"
+						}
+					]
+				},
+				"description": "## Filter context data by comparing the values of a geo:point attribute\n\nThis example returns the data of all `Store` entities found within 1.5km the **Brandenburg Gate**  in **Berlin** (*52.5162N 13.3777W*)"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtaining Version Information",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{orion}}/version/",
+					"protocol": "http",
+					"host": [
+						"{{orion}}"
+					],
+					"path": [
+						"version",
+						""
+					]
+				},
+				"description": "Once the Orion Context Broker is running, You can check the status by making an HTTP request to the exposed port. \nIf the response is blank, this is usually because the MongoDB database holding the context information is not running or not connected.\n\n>**Troubleshooting:** What if the response is blank ?\n>\n> * To check that a docker container is running try\n>\n>```bash\n>docker ps\n>```\n>\n>You should see two containers running. If orion is not running, you can restart the containers as necessary."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "orion",
+			"value": "localhost:1026",
+			"type": "default"
+		}
+	]
+}
