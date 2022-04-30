@@ -24,7 +24,7 @@ fi
 
 loadData () {
 	docker run --rm -v $(pwd)/provisioning/scripts/import-initial-context-data.sh:/import-initial-context-data.sh \
-		--network fiware_default \
+		--network fiware-iot-upo_default \
 		--entrypoint /bin/ash curlimages/curl import-initial-context-data.sh
 	echo ""
 }

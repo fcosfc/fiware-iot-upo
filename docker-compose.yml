@@ -23,8 +23,7 @@ services:
       test: curl --fail -s http://orion:${ORION_PORT}/version || exit 1
       interval: 5s
 
-
-  # Databases
+  # Mongo DB repository
   mongo-db:
     labels:
       com.wordpress.fcosfc: 'fiware-iot-upo'
@@ -44,8 +43,44 @@ services:
         host=`hostname --ip-address || echo '127.0.0.1'`; 
         mongo --quiet $host/test --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)' && echo 0 || echo 1
       interval: 5s
+  
+  # IoT Agent
+  iot-agent:
+    labels:
+      com.wordpress.fcosfc: 'fiware-iot-upo'
+    image: fiware/iotagent-ul:${ULTRALIGHT_VERSION}
+    hostname: iot-agent
+    container_name: fiware-iot-agent
+    depends_on:
+      - mongo-db
+      - mosquitto
+    networks:
+      - default
+    expose:
+      - "${IOTA_NORTH_PORT}"
+    ports:
+      - "${IOTA_NORTH_PORT}:${IOTA_NORTH_PORT}" # localhost:4041
+    environment:
+      - IOTA_CB_HOST=orion # name of the context broker to update context
+      - IOTA_CB_PORT=${ORION_PORT} # port the context broker listens on to update context
+      - IOTA_NORTH_PORT=${IOTA_NORTH_PORT}
+      - IOTA_REGISTRY_TYPE=mongodb #Whether to hold IoT device info in memory or in a database
+      - IOTA_LOG_LEVEL=DEBUG # The log level of the IoT Agent
+      - IOTA_TIMESTAMP=true # Supply timestamp information with each measurement
+      - IOTA_CB_NGSI_VERSION=v2 # use NGSIv2 when sending updates for active attributes
+      - IOTA_AUTOCAST=true # Ensure Ultralight number values are read as numbers not strings
+      - IOTA_MONGO_HOST=mongo-db # The host name of MongoDB
+      - IOTA_MONGO_PORT=${MONGO_DB_PORT} # The port mongoDB is listening on
+      - IOTA_MONGO_DB=iotagentul # The name of the database used in mongoDB
+      - IOTA_MQTT_HOST=mosquitto # The host name of the MQTT Broker
+      - IOTA_MQTT_PORT=${MOSQUITTO_PORT} # The port the MQTT Broker is listening on to receive topics
+      - IOTA_DEFAULT_RESOURCE= # Default is blank. I'm using MQTT so I don't need a resource
+      - IOTA_PROVIDER_URL=http://iot-agent:${IOTA_NORTH_PORT}
+      - IOTA_DEFAULT_TRANSPORT=MQTT
+    healthcheck:
+      interval: 5s
 
-  # Other services
+  # Mosquitto MQTT broker
   mosquitto:
     labels:
       com.wordpress.fcosfc: 'fiware-iot-upo'
@@ -58,6 +93,8 @@ services:
       - "${MOSQUITTO_PORT}:${MOSQUITTO_PORT}"
     volumes:
       - ./provisioning/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto_data:/mosquitto/data 
+      - mosquitto_log:/mosquitto/log 
     networks:
       - default
 
@@ -70,4 +107,6 @@ networks:
         - subnet: 172.18.1.0/24
 
 volumes:
-  mongo-db: ~
+  mongo-db:
+  mosquitto_data:
+  mosquitto_log:
