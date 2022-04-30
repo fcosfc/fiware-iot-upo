@@ -9,7 +9,7 @@ set -e
 printf "⏳ Loading initial context data "
 
 #
-# Crea varias entidades de tipo ciudad, registrando la temperatura para cada una de ellas
+# Crea varias entidades de tipo Estación Meteorológica, registrando la temperatura para cada una de ellas
 #
 curl -s -o /dev/null -X POST \
   'http://orion:1026/v2/op/update' \
@@ -18,8 +18,8 @@ curl -s -o /dev/null -X POST \
     "actionType": "append",
     "entities": [
   	    {
-            "id": "urn:ngsi-ld:City:Algeciras",
-            "type": "City",
+            "id": "urn:ngsi-ld:WeatherStation:001",
+            "type": "WeatherStation",
             "temperature": {
                 "type": "Number",
                 "value": 20,
@@ -34,7 +34,7 @@ curl -s -o /dev/null -X POST \
                 "type": "geo:json",
                 "value": {
                     "type": "Point",
-                    "coordinates": [36.13326, -5.45051]
+                    "coordinates": [36.13, -5.45]
                 }
             },
             "name": {
@@ -43,8 +43,8 @@ curl -s -o /dev/null -X POST \
             }
         },
   	    {
-            "id": "urn:ngsi-ld:City:SanRoque",
-            "type": "City",
+            "id": "urn:ngsi-ld:WeatherStation:002",
+            "type": "WeatherStation",
             "temperature": {
                 "type": "Number",
                 "value": 20.3,
@@ -59,7 +59,7 @@ curl -s -o /dev/null -X POST \
                 "type": "geo:json",
                 "value": {
                     "type": "Point",
-                    "coordinates": [36.21067, -5.38415]
+                    "coordinates": [36.21, -5.39]
                 }
             },
             "name": {
@@ -68,8 +68,8 @@ curl -s -o /dev/null -X POST \
             }
         },
   	    {
-            "id": "urn:ngsi-ld:City:LaLinea",
-            "type": "City",
+            "id": "urn:ngsi-ld:WeatherStation:003",
+            "type": "WeatherStation",
             "temperature": {
                 "type": "Number",
                 "value": 19.5,
@@ -84,7 +84,7 @@ curl -s -o /dev/null -X POST \
                 "type": "geo:json",
                 "value": {
                     "type": "Point",
-                    "coordinates": [36.16809, -5.34777]
+                    "coordinates": [36.17, -5.35]
                 }
             },
             "name": {
