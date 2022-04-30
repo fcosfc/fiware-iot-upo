@@ -44,7 +44,22 @@ services:
         host=`hostname --ip-address || echo '127.0.0.1'`; 
         mongo --quiet $host/test --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)' && echo 0 || echo 1
       interval: 5s
-    
+
+  # Other services
+  mosquitto:
+    labels:
+      com.wordpress.fcosfc: 'fiware-iot-upo'
+    image: eclipse-mosquitto:${MOSQUITTO_VERSION}
+    hostname: mosquitto
+    container_name: mosquitto
+    expose:
+      - "${MOSQUITTO_PORT}"
+    ports:
+      - "${MOSQUITTO_PORT}:${MOSQUITTO_PORT}"
+    volumes:
+      - ./provisioning/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      - default
 
 networks:
   default:
