@@ -97,6 +97,7 @@ case "${command}" in
 		${dockerCmd} up -d --remove-orphans
 		waitForMongo
 		addDatabaseIndex
+		waitForOrion
 		loadData
 		displayServices
 		;;

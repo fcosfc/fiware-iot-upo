@@ -32,7 +32,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"urn:ngsi-ld:WeatherStation:004\",\n    \"type\": \"WeatherStation\",\n    \"temperature\": {\n        \"type\": \"Number\",\n        \"value\": 18,\n        \"metadata\": {\n    \t\t\"verified\": {\n        \t\t\"value\": true,\n        \t\t\"type\": \"Boolean\"\n    \t\t}\n    \t}\n    },\n    \"location\": {\n        \"type\": \"geo:json\",\n        \"value\": {\n             \"type\": \"Point\",\n             \"coordinates\": [36.02, -5.61]\n        }\n    },\n    \"name\": {\n        \"type\": \"Text\",\n        \"value\": \"Tarifa\"\n    }\n}",
+					"raw": "{\n    \"id\": \"urn:ngsi-ld:WeatherStation:004\",\n    \"type\": \"WeatherStation\",\n    \"name\": {\n        \"type\": \"Text\",\n        \"value\": \"Tarifa\"\n    },\n    \"location\": {\n        \"type\": \"geo:json\",\n        \"value\": {\n             \"type\": \"Point\",\n             \"coordinates\": [36.02, -5.61]\n        }\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -61,7 +61,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"actionType\": \"append\",\n    \"entities\": [\n  \t    {\n            \"id\": \"urn:ngsi-ld:WeatherStation:005\",\n            \"type\": \"WeatherStation\",\n            \"temperature\": {\n                \"type\": \"Number\",\n                \"value\": 19.5,\n                \"metadata\": {\n    \t\t        \"verified\": {\n        \t\t        \"value\": true,\n        \t\t        \"type\": \"Boolean\"\n    \t\t        }\n    \t        }\n            },\n            \"location\": {\n                \"type\": \"geo:json\",\n                \"value\": {\n                    \"type\": \"Point\",\n                    \"coordinates\": [36.43, -5.45]\n                }\n            },\n            \"name\": {\n                \"type\": \"Text\",\n                \"value\": \"Jimena de la Frontera\"\n            }\n        },\n  \t    {\n            \"id\": \"urn:ngsi-ld:WeatherStation:006\",\n            \"type\": \"WeatherStation\",\n            \"temperature\": {\n                \"type\": \"Number\",\n                \"value\": 19.5,\n                \"metadata\": {\n    \t\t        \"verified\": {\n        \t\t        \"value\": true,\n        \t\t        \"type\": \"Boolean\"\n    \t\t        }\n    \t        }\n            },\n            \"location\": {\n                \"type\": \"geo:json\",\n                \"value\": {\n                    \"type\": \"Point\",\n                    \"coordinates\": [36.29,-5.42]\n                }\n            },\n            \"name\": {\n                \"type\": \"Text\",\n                \"value\": \"Castellar de la Frontera\"\n            }\n        }\n    ]\n}",
+					"raw": "{\n    \"actionType\": \"append\",\n    \"entities\": [\n  \t    {\n            \"id\": \"urn:ngsi-ld:WeatherStation:005\",\n            \"type\": \"WeatherStation\",\n            \"name\": {\n                \"type\": \"Text\",\n                \"value\": \"Jimena de la Frontera\"\n            },\n            \"location\": {\n                \"type\": \"geo:json\",\n                \"value\": {\n                    \"type\": \"Point\",\n                    \"coordinates\": [36.43, -5.45]\n                }\n            }\n        },\n  \t    {\n            \"id\": \"urn:ngsi-ld:WeatherStation:006\",\n            \"type\": \"WeatherStation\",\n            \"name\": {\n                \"type\": \"Text\",\n                \"value\": \"Castellar de la Frontera\"\n            },\n            \"location\": {\n                \"type\": \"geo:json\",\n                \"value\": {\n                    \"type\": \"Point\",\n                    \"coordinates\": [36.29,-5.42]\n                }\n            }\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -89,7 +89,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{orion}}/v2/entities/?type=WeatherStation&options=keyValues&attrs=name,temperature",
+					"raw": "http://{{orion}}/v2/entities/?type=WeatherStation&options=keyValues",
 					"protocol": "http",
 					"host": [
 						"{{orion}}"
@@ -107,10 +107,6 @@
 						{
 							"key": "options",
 							"value": "keyValues"
-						},
-						{
-							"key": "attrs",
-							"value": "name,temperature"
 						}
 					]
 				},
@@ -119,13 +115,13 @@
 			"response": []
 		},
 		{
-			"name": "Update Temperature",
+			"name": "Update Weather Station Name",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"value\": 21.0,\n    \"type\": \"Number\"\n}",
+					"raw": "{\n    \"value\": \"Jimena\",\n    \"type\": \"Text\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -133,7 +129,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{orion}}/v2/entities/urn:ngsi-ld:WeatherStation:001/attrs/temperature",
+					"raw": "http://{{orion}}/v2/entities/urn:ngsi-ld:WeatherStation:005/attrs/name",
 					"protocol": "http",
 					"host": [
 						"{{orion}}"
@@ -141,9 +137,9 @@
 					"path": [
 						"v2",
 						"entities",
-						"urn:ngsi-ld:WeatherStation:001",
+						"urn:ngsi-ld:WeatherStation:005",
 						"attrs",
-						"temperature"
+						"name"
 					]
 				}
 			},

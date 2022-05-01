@@ -9,7 +9,7 @@ set -e
 printf "⏳ Loading initial context data "
 
 #
-# Crea varias entidades de tipo Estación Meteorológica, registrando la temperatura para cada una de ellas
+# Crea varias entidades de tipo Estación Meteorológica
 #
 curl -s -o /dev/null -X POST \
   'http://orion:1026/v2/op/update' \
@@ -20,15 +20,9 @@ curl -s -o /dev/null -X POST \
   	    {
             "id": "urn:ngsi-ld:WeatherStation:001",
             "type": "WeatherStation",
-            "temperature": {
-                "type": "Number",
-                "value": 20,
-                "metadata": {
-    		        "verified": {
-        		        "value": false,
-        		        "type": "Boolean"
-    		        }
-    	        }
+            "name": {
+                "type": "Text",
+                "value": "Algeciras"
             },
             "location": {
                 "type": "geo:json",
@@ -36,24 +30,14 @@ curl -s -o /dev/null -X POST \
                     "type": "Point",
                     "coordinates": [36.13, -5.45]
                 }
-            },
-            "name": {
-                "type": "Text",
-                "value": "Algeciras"
             }
         },
   	    {
             "id": "urn:ngsi-ld:WeatherStation:002",
             "type": "WeatherStation",
-            "temperature": {
-                "type": "Number",
-                "value": 20.3,
-                "metadata": {
-    		        "verified": {
-        		        "value": true,
-        		        "type": "Boolean"
-    		        }
-    	        }
+            "name": {
+                "type": "Text",
+                "value": "San Roque"
             },
             "location": {
                 "type": "geo:json",
@@ -61,24 +45,14 @@ curl -s -o /dev/null -X POST \
                     "type": "Point",
                     "coordinates": [36.21, -5.39]
                 }
-            },
-            "name": {
-                "type": "Text",
-                "value": "San Roque"
             }
         },
   	    {
             "id": "urn:ngsi-ld:WeatherStation:003",
             "type": "WeatherStation",
-            "temperature": {
-                "type": "Number",
-                "value": 19.5,
-                "metadata": {
-    		        "verified": {
-        		        "value": true,
-        		        "type": "Boolean"
-    		        }
-    	        }
+            "name": {
+                "type": "Text",
+                "value": "La Línea de la Concepción"
             },
             "location": {
                 "type": "geo:json",
@@ -86,10 +60,6 @@ curl -s -o /dev/null -X POST \
                     "type": "Point",
                     "coordinates": [36.17, -5.35]
                 }
-            },
-            "name": {
-                "type": "Text",
-                "value": "La Línea de la Concepción"
             }
         }
     ]
