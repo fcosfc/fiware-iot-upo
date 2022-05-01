@@ -103,8 +103,8 @@ curl -s -o /dev/null -X POST \
     "devices": [
         {
             "device_id":   "temperature001",
-            "entity_name": "urn:ngsi-ld:Temperature:001",
-            "entity_type": "Temperature",
+            "entity_name": "urn:ngsi-ld:TemperatureSensor:001",
+            "entity_type": "TemperatureSensor",
             "protocol":    "PDI-IoTA-UltraLight",
             "transport":   "MQTT",
             "timezone":    "Europe/Madrid",
@@ -117,8 +117,8 @@ curl -s -o /dev/null -X POST \
         },
         {
             "device_id":   "temperature002",
-            "entity_name": "urn:ngsi-ld:Temperature:002",
-            "entity_type": "Temperature",
+            "entity_name": "urn:ngsi-ld:TemperatureSensor:002",
+            "entity_type": "TemperatureSensor",
             "protocol":    "PDI-IoTA-UltraLight",
             "transport":   "MQTT",
             "timezone":    "Europe/Madrid",
@@ -131,8 +131,8 @@ curl -s -o /dev/null -X POST \
         },
         {
             "device_id":   "temperature003",
-            "entity_name": "urn:ngsi-ld:Temperature:003",
-            "entity_type": "Temperature",
+            "entity_name": "urn:ngsi-ld:TemperatureSensor:003",
+            "entity_type": "TemperatureSensor",
             "protocol":    "PDI-IoTA-UltraLight",
             "transport":   "MQTT",
             "timezone":    "Europe/Madrid",
@@ -147,5 +147,60 @@ curl -s -o /dev/null -X POST \
 }'
 
 printf "\tSensors created\n"
+
+#
+# Creación de actuadores de alarma asociaciados a las estaciones meteorológicas
+#
+
+curl -s -o /dev/null -X POST \
+  'http://iot-agent:4041/iot/devices' \
+  -H 'Content-Type: application/json' \
+  -H 'fiware-service: iotupo' \
+  -H 'fiware-servicepath: /' \
+  -d '{
+    "devices": [
+        {
+            "device_id": "alarm001",
+            "entity_name": "urn:ngsi-ld:AlarmActuator:001",
+            "entity_type": "AlarmActuator",
+            "protocol": "PDI-IoTA-UltraLight",
+            "transport": "MQTT",
+            "commands": [
+                { "name": "ring", "type": "command" }
+            ],
+            "static_attributes": [
+                { "name":"refWeatherStation", "type": "Relationship", "value": "urn:ngsi-ld:WeatherStation:001"}
+            ]
+        },
+        {
+            "device_id": "alarm002",
+            "entity_name": "urn:ngsi-ld:AlarmActuator:002",
+            "entity_type": "AlarmActuator",
+            "protocol": "PDI-IoTA-UltraLight",
+            "transport": "MQTT",
+            "commands": [
+                { "name": "ring", "type": "command" }
+            ],
+            "static_attributes": [
+                { "name":"refWeatherStation", "type": "Relationship", "value": "urn:ngsi-ld:WeatherStation:002"}
+            ]
+        },
+        {
+            "device_id": "alarm003",
+            "entity_name": "urn:ngsi-ld:AlarmActuator:003",
+            "entity_type": "AlarmActuator",
+            "protocol": "PDI-IoTA-UltraLight",
+            "transport": "MQTT",
+            "commands": [
+                { "name": "ring", "type": "command" }
+            ],
+            "static_attributes": [
+                { "name":"refWeatherStation", "type": "Relationship", "value": "urn:ngsi-ld:WeatherStation:003"}
+            ]
+        }
+    ]
+}'
+
+printf "\tActuators created\n"
 
 echo -e " \033[1;32mdone\033[0m"

@@ -6,234 +6,357 @@
 	},
 	"item": [
 		{
-			"name": "Obtaining Contexto Broker Version Information",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://{{orion}}/version/",
-					"protocol": "http",
-					"host": [
-						"{{orion}}"
-					],
-					"path": [
-						"version",
-						""
-					]
+			"name": "System status",
+			"item": [
+				{
+					"name": "Context Broker Version Information",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{orion}}/version/",
+							"protocol": "http",
+							"host": [
+								"{{orion}}"
+							],
+							"path": [
+								"version",
+								""
+							]
+						},
+						"description": "Once the Orion Context Broker is running, You can check the status by making an HTTP request to the exposed port. \nIf the response is blank, this is usually because the MongoDB database holding the context information is not running or not connected.\n\n>**Troubleshooting:** What if the response is blank ?\n>\n> * To check that a docker container is running try\n>\n>```bash\n>docker ps\n>```\n>\n>You should see two containers running. If orion is not running, you can restart the containers as necessary."
+					},
+					"response": []
 				},
-				"description": "Once the Orion Context Broker is running, You can check the status by making an HTTP request to the exposed port. \nIf the response is blank, this is usually because the MongoDB database holding the context information is not running or not connected.\n\n>**Troubleshooting:** What if the response is blank ?\n>\n> * To check that a docker container is running try\n>\n>```bash\n>docker ps\n>```\n>\n>You should see two containers running. If orion is not running, you can restart the containers as necessary."
-			},
-			"response": []
-		},
-		{
-			"name": "Create Weather Station",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"id\": \"urn:ngsi-ld:WeatherStation:004\",\n    \"type\": \"WeatherStation\",\n    \"name\": {\n        \"type\": \"Text\",\n        \"value\": \"Tarifa\"\n    },\n    \"location\": {\n        \"type\": \"geo:json\",\n        \"value\": {\n             \"type\": \"Point\",\n             \"coordinates\": [36.02, -5.61]\n        }\n    }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://{{orion}}/v2/entities/",
-					"protocol": "http",
-					"host": [
-						"{{orion}}"
-					],
-					"path": [
-						"v2",
-						"entities",
-						""
-					]
+				{
+					"name": "Iot Agent Version Information",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{iot-agent}}/version",
+							"protocol": "http",
+							"host": [
+								"{{iot-agent}}"
+							],
+							"path": [
+								"version"
+							]
+						},
+						"description": "Once the Orion Context Broker is running, You can check the status by making an HTTP request to the exposed port. \nIf the response is blank, this is usually because the MongoDB database holding the context information is not running or not connected.\n\n>**Troubleshooting:** What if the response is blank ?\n>\n> * To check that a docker container is running try\n>\n>```bash\n>docker ps\n>```\n>\n>You should see two containers running. If orion is not running, you can restart the containers as necessary."
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Create Weather Stations",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"actionType\": \"append\",\n    \"entities\": [\n  \t    {\n            \"id\": \"urn:ngsi-ld:WeatherStation:005\",\n            \"type\": \"WeatherStation\",\n            \"name\": {\n                \"type\": \"Text\",\n                \"value\": \"Jimena de la Frontera\"\n            },\n            \"location\": {\n                \"type\": \"geo:json\",\n                \"value\": {\n                    \"type\": \"Point\",\n                    \"coordinates\": [36.43, -5.45]\n                }\n            }\n        },\n  \t    {\n            \"id\": \"urn:ngsi-ld:WeatherStation:006\",\n            \"type\": \"WeatherStation\",\n            \"name\": {\n                \"type\": \"Text\",\n                \"value\": \"Castellar de la Frontera\"\n            },\n            \"location\": {\n                \"type\": \"geo:json\",\n                \"value\": {\n                    \"type\": \"Point\",\n                    \"coordinates\": [36.29,-5.42]\n                }\n            }\n        }\n    ]\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Weather Stations",
+			"item": [
+				{
+					"name": "Create one station",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"urn:ngsi-ld:WeatherStation:004\",\n    \"type\": \"WeatherStation\",\n    \"name\": {\n        \"type\": \"Text\",\n        \"value\": \"Tarifa\"\n    },\n    \"location\": {\n        \"type\": \"geo:json\",\n        \"value\": {\n             \"type\": \"Point\",\n             \"coordinates\": [36.02, -5.61]\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{orion}}/v2/entities/",
+							"protocol": "http",
+							"host": [
+								"{{orion}}"
+							],
+							"path": [
+								"v2",
+								"entities",
+								""
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://{{orion}}/v2/op/update",
-					"protocol": "http",
-					"host": [
-						"{{orion}}"
-					],
-					"path": [
-						"v2",
-						"op",
-						"update"
-					]
+				{
+					"name": "Create several stations",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"actionType\": \"append\",\n    \"entities\": [\n  \t    {\n            \"id\": \"urn:ngsi-ld:WeatherStation:005\",\n            \"type\": \"WeatherStation\",\n            \"name\": {\n                \"type\": \"Text\",\n                \"value\": \"Jimena de la Frontera\"\n            },\n            \"location\": {\n                \"type\": \"geo:json\",\n                \"value\": {\n                    \"type\": \"Point\",\n                    \"coordinates\": [36.43, -5.45]\n                }\n            }\n        },\n  \t    {\n            \"id\": \"urn:ngsi-ld:WeatherStation:006\",\n            \"type\": \"WeatherStation\",\n            \"name\": {\n                \"type\": \"Text\",\n                \"value\": \"Castellar de la Frontera\"\n            },\n            \"location\": {\n                \"type\": \"geo:json\",\n                \"value\": {\n                    \"type\": \"Point\",\n                    \"coordinates\": [36.29,-5.42]\n                }\n            }\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{orion}}/v2/op/update",
+							"protocol": "http",
+							"host": [
+								"{{orion}}"
+							],
+							"path": [
+								"v2",
+								"op",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve all stations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{orion}}/v2/entities/?type=WeatherStation&options=keyValues",
+							"protocol": "http",
+							"host": [
+								"{{orion}}"
+							],
+							"path": [
+								"v2",
+								"entities",
+								""
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "WeatherStation"
+								},
+								{
+									"key": "options",
+									"value": "keyValues"
+								}
+							]
+						},
+						"description": "This example returns the full data context"
+					},
+					"response": []
+				},
+				{
+					"name": "Update station name attribute",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": \"Jimena\",\n    \"type\": \"Text\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{orion}}/v2/entities/urn:ngsi-ld:WeatherStation:005/attrs/name",
+							"protocol": "http",
+							"host": [
+								"{{orion}}"
+							],
+							"path": [
+								"v2",
+								"entities",
+								"urn:ngsi-ld:WeatherStation:005",
+								"attrs",
+								"name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtain station by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{orion}}/v2/entities/urn:ngsi-ld:WeatherStation:001?options=keyValues&type=WeatherStation",
+							"protocol": "http",
+							"host": [
+								"{{orion}}"
+							],
+							"path": [
+								"v2",
+								"entities",
+								"urn:ngsi-ld:WeatherStation:001"
+							],
+							"query": [
+								{
+									"key": "options",
+									"value": "keyValues",
+									"description": "* `keyValues` option in order to get a more compact and brief representation, including just attribute values\n* `values` option combined with a list of attribute values  `attrs`  for an ordered list of attributes only"
+								},
+								{
+									"key": "type",
+									"value": "WeatherStation",
+									"description": "Entity type, to avoid ambiguity in case there are several entities with the same entity id"
+								},
+								{
+									"key": "attrs",
+									"value": "name",
+									"description": "Ordered list of attribute names to display",
+									"disabled": true
+								}
+							]
+						},
+						"description": "This example returns the context data of `store1`. The `id` of the entity should be unique or the `type` parameter should also be used.\n\nBecause of the use of the `options=keyValues`, the response consists of JSON only without the attribute `type` elements."
+					},
+					"response": []
+				},
+				{
+					"name": "Filter stations by distance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{orion}}/v2/entities/?georel=near;maxDistance:15000&geometry=point&coords=-5.30,36.30&type=WeatherStation&options=keyValues",
+							"protocol": "http",
+							"host": [
+								"{{orion}}"
+							],
+							"path": [
+								"v2",
+								"entities",
+								""
+							],
+							"query": [
+								{
+									"key": "georel",
+									"value": "near;maxDistance:15000"
+								},
+								{
+									"key": "geometry",
+									"value": "point"
+								},
+								{
+									"key": "coords",
+									"value": "-5.30,36.30"
+								},
+								{
+									"key": "type",
+									"value": "WeatherStation",
+									"description": "Entity type, to avoid ambiguity in case there are several entities with the same entity id"
+								},
+								{
+									"key": "options",
+									"value": "keyValues",
+									"description": "* `keyValues` option in order to get a more compact and brief representation, including just attribute values\n* `values` option combined with a list of attribute values  `attrs`  for an ordered list of attributes only"
+								},
+								{
+									"key": "attrs",
+									"value": "name",
+									"description": "Ordered list of attribute names to display",
+									"disabled": true
+								}
+							]
+						},
+						"description": "## Filter context data by comparing the values of a geo:point attribute\n\nThis example returns the data of all `Store` entities found within 1.5km the **Brandenburg Gate**  in **Berlin** (*52.5162N 13.3777W*)"
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Retrieving Context Information",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://{{orion}}/v2/entities/?type=WeatherStation&options=keyValues",
-					"protocol": "http",
-					"host": [
-						"{{orion}}"
-					],
-					"path": [
-						"v2",
-						"entities",
-						""
-					],
-					"query": [
-						{
-							"key": "type",
-							"value": "WeatherStation"
+			"name": "Sensors",
+			"item": [
+				{
+					"name": "Retrieve all temperature sensors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "fiware-service",
+								"value": "iotupo",
+								"type": "default"
+							},
+							{
+								"key": "fiware-servicepath",
+								"value": "/",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{orion}}/v2/entities/?type=TemperatureSensor&options=keyValues",
+							"protocol": "http",
+							"host": [
+								"{{orion}}"
+							],
+							"path": [
+								"v2",
+								"entities",
+								""
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "TemperatureSensor"
+								},
+								{
+									"key": "options",
+									"value": "keyValues"
+								}
+							]
 						},
-						{
-							"key": "options",
-							"value": "keyValues"
-						}
-					]
-				},
-				"description": "This example returns the full data context"
-			},
-			"response": []
-		},
-		{
-			"name": "Update Weather Station Name",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"value\": \"Jimena\",\n    \"type\": \"Text\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://{{orion}}/v2/entities/urn:ngsi-ld:WeatherStation:005/attrs/name",
-					"protocol": "http",
-					"host": [
-						"{{orion}}"
-					],
-					"path": [
-						"v2",
-						"entities",
-						"urn:ngsi-ld:WeatherStation:005",
-						"attrs",
-						"name"
-					]
+						"description": "This example returns the full data context"
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Obtain Weather Station by id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://{{orion}}/v2/entities/urn:ngsi-ld:WeatherStation:001?options=keyValues&type=WeatherStation",
-					"protocol": "http",
-					"host": [
-						"{{orion}}"
-					],
-					"path": [
-						"v2",
-						"entities",
-						"urn:ngsi-ld:WeatherStation:001"
-					],
-					"query": [
-						{
-							"key": "options",
-							"value": "keyValues",
-							"description": "* `keyValues` option in order to get a more compact and brief representation, including just attribute values\n* `values` option combined with a list of attribute values  `attrs`  for an ordered list of attributes only"
+			"name": "Actuators",
+			"item": [
+				{
+					"name": "Retrieve all alarm actuators",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "fiware-service",
+								"value": "iotupo",
+								"type": "default"
+							},
+							{
+								"key": "fiware-servicepath",
+								"value": "/",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://{{orion}}/v2/entities/?type=AlarmActuator&options=keyValues",
+							"protocol": "http",
+							"host": [
+								"{{orion}}"
+							],
+							"path": [
+								"v2",
+								"entities",
+								""
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "AlarmActuator"
+								},
+								{
+									"key": "options",
+									"value": "keyValues"
+								}
+							]
 						},
-						{
-							"key": "type",
-							"value": "WeatherStation",
-							"description": "Entity type, to avoid ambiguity in case there are several entities with the same entity id"
-						},
-						{
-							"key": "attrs",
-							"value": "name",
-							"description": "Ordered list of attribute names to display",
-							"disabled": true
-						}
-					]
-				},
-				"description": "This example returns the context data of `store1`. The `id` of the entity should be unique or the `type` parameter should also be used.\n\nBecause of the use of the `options=keyValues`, the response consists of JSON only without the attribute `type` elements."
-			},
-			"response": []
-		},
-		{
-			"name": "Filter Weather Stations by distance",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://{{orion}}/v2/entities/?georel=near;maxDistance:15000&geometry=point&coords=-5.30,36.30&type=WeatherStation&options=keyValues",
-					"protocol": "http",
-					"host": [
-						"{{orion}}"
-					],
-					"path": [
-						"v2",
-						"entities",
-						""
-					],
-					"query": [
-						{
-							"key": "georel",
-							"value": "near;maxDistance:15000"
-						},
-						{
-							"key": "geometry",
-							"value": "point"
-						},
-						{
-							"key": "coords",
-							"value": "-5.30,36.30"
-						},
-						{
-							"key": "type",
-							"value": "WeatherStation",
-							"description": "Entity type, to avoid ambiguity in case there are several entities with the same entity id"
-						},
-						{
-							"key": "options",
-							"value": "keyValues",
-							"description": "* `keyValues` option in order to get a more compact and brief representation, including just attribute values\n* `values` option combined with a list of attribute values  `attrs`  for an ordered list of attributes only"
-						},
-						{
-							"key": "attrs",
-							"value": "name",
-							"description": "Ordered list of attribute names to display",
-							"disabled": true
-						}
-					]
-				},
-				"description": "## Filter context data by comparing the values of a geo:point attribute\n\nThis example returns the data of all `Store` entities found within 1.5km the **Brandenburg Gate**  in **Berlin** (*52.5162N 13.3777W*)"
-			},
-			"response": []
+						"description": "This example returns the full data context"
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -260,6 +383,11 @@
 		{
 			"key": "orion",
 			"value": "localhost:1026",
+			"type": "default"
+		},
+		{
+			"key": "iot-agent",
+			"value": "localhost:4041",
 			"type": "default"
 		}
 	]
