@@ -83,6 +83,16 @@ waitForOrion () {
 	done
 }
 
+waitIoTAgent () {
+	echo -e "\n⏳ Waiting for \033[1;34mIoT Agent\033[0m to be available\n"
+
+	while ! [ `docker inspect --format='{{.State.Health.Status}}' fiware-iot-agent` == "healthy" ]
+	do
+	  echo -e "IoT Agent HTTP state: " `curl -s -o /dev/null -w %{http_code} 'http://localhost:4041/version'` " (waiting for 200)"
+	  sleep 1
+	done
+}
+
 command="$1"
 case "${command}" in
 	"help")
@@ -98,6 +108,7 @@ case "${command}" in
 		waitForMongo
 		addDatabaseIndex
 		waitForOrion
+		waitIoTAgent
 		loadData
 		displayServices
 		;;

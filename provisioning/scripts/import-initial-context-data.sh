@@ -6,11 +6,12 @@
 
 set -e
 
-printf "⏳ Loading initial context data "
+printf "⏳ Loading initial context data \n"
 
 #
 # Crea varias entidades de tipo Estación Meteorológica
 #
+
 curl -s -o /dev/null -X POST \
   'http://orion:1026/v2/op/update' \
   -H 'Content-Type: application/json' \
@@ -64,5 +65,87 @@ curl -s -o /dev/null -X POST \
         }
     ]
 }'
+
+printf "\tWeather Station entities created\n"
+
+#
+# Creación del grupo de servicios para sensores que usan MQTT
+#
+
+curl -s -o /dev/null -X POST \
+  'http://iot-agent:4041/iot/services' \
+  -H 'Content-Type: application/json' \
+  -H 'fiware-service: iotupo' \
+  -H 'fiware-servicepath: /' \
+  -d '{
+    "services": [
+        {
+            "apikey":      "4pacosaucedo2guadiaro4s40d59ov",
+            "cbroker":     "http://orion:1026",
+            "entity_type": "Thing",
+            "resource":    ""
+        }
+    ]
+}'
+
+printf "\tMQTT group services created\n"
+
+#
+# Creación de sensores de temperatura asociados a las estaciones meteorológicas
+#
+
+curl -s -o /dev/null -X POST \
+  'http://iot-agent:4041/iot/devices' \
+  -H 'Content-Type: application/json' \
+  -H 'fiware-service: iotupo' \
+  -H 'fiware-servicepath: /' \
+  -d '{
+    "devices": [
+        {
+            "device_id":   "temperature001",
+            "entity_name": "urn:ngsi-ld:Temperature:001",
+            "entity_type": "Temperature",
+            "protocol":    "PDI-IoTA-UltraLight",
+            "transport":   "MQTT",
+            "timezone":    "Europe/Madrid",
+            "attributes": [
+                { "object_id": "t", "name": "temperature", "type": "Float" }
+            ],
+            "static_attributes": [
+                { "name":"refWeatherStation", "type": "Relationship", "value": "urn:ngsi-ld:WeatherStation:001"}
+            ]
+        },
+        {
+            "device_id":   "temperature002",
+            "entity_name": "urn:ngsi-ld:Temperature:002",
+            "entity_type": "Temperature",
+            "protocol":    "PDI-IoTA-UltraLight",
+            "transport":   "MQTT",
+            "timezone":    "Europe/Madrid",
+            "attributes": [
+                { "object_id": "t", "name": "temperature", "type": "Float" }
+            ],
+            "static_attributes": [
+                { "name":"refWeatherStation", "type": "Relationship", "value": "urn:ngsi-ld:WeatherStation:002"}
+            ]
+        },
+        {
+            "device_id":   "temperature003",
+            "entity_name": "urn:ngsi-ld:Temperature:003",
+            "entity_type": "Temperature",
+            "protocol":    "PDI-IoTA-UltraLight",
+            "transport":   "MQTT",
+            "timezone":    "Europe/Madrid",
+            "attributes": [
+                { "object_id": "t", "name": "temperature", "type": "Float" }
+            ],
+            "static_attributes": [
+                { "name":"refWeatherStation", "type": "Relationship", "value": "urn:ngsi-ld:WeatherStation:003"}
+            ]
+        }
+    ]
+}'
+
+printf "\tSensors created\n"
 
 echo -e " \033[1;32mdone\033[0m"
