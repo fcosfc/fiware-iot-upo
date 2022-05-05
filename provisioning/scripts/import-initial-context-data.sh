@@ -24,13 +24,6 @@ curl -s -o /dev/null -X POST \
             "name": {
                 "type": "Text",
                 "value": "Algeciras"
-            },
-            "location": {
-                "type": "geo:json",
-                "value": {
-                    "type": "Point",
-                    "coordinates": [36.13, -5.45]
-                }
             }
         },
   	    {
@@ -39,13 +32,6 @@ curl -s -o /dev/null -X POST \
             "name": {
                 "type": "Text",
                 "value": "San Roque"
-            },
-            "location": {
-                "type": "geo:json",
-                "value": {
-                    "type": "Point",
-                    "coordinates": [36.21, -5.39]
-                }
             }
         },
   	    {
@@ -54,13 +40,6 @@ curl -s -o /dev/null -X POST \
             "name": {
                 "type": "Text",
                 "value": "La Línea de la Concepción"
-            },
-            "location": {
-                "type": "geo:json",
-                "value": {
-                    "type": "Point",
-                    "coordinates": [36.17, -5.35]
-                }
             }
         }
     ]
@@ -109,10 +88,26 @@ curl -s -o /dev/null -X POST \
             "transport":   "MQTT",
             "timezone":    "Europe/Madrid",
             "attributes": [
-                { "object_id": "t", "name": "temperature", "type": "Float" }
+                { 
+                    "object_id": "t", 
+                    "name": "temperature", 
+                    "type": "Float" 
+                }
             ],
             "static_attributes": [
-                { "name":"refWeatherStation", "type": "Relationship", "value": "urn:ngsi-ld:WeatherStation:001"}
+                {            
+                    "name": "location",
+                    "type": "geo:json",
+                    "value": {
+                        "type": "Point",
+                        "coordinates": [36.13, -5.45]
+                    }
+                },
+                { 
+                    "name":"refWeatherStation", 
+                    "type": "Relationship", 
+                    "value": "urn:ngsi-ld:WeatherStation:001"
+                }
             ]
         },
         {
@@ -123,10 +118,26 @@ curl -s -o /dev/null -X POST \
             "transport":   "MQTT",
             "timezone":    "Europe/Madrid",
             "attributes": [
-                { "object_id": "t", "name": "temperature", "type": "Float" }
+                { 
+                    "object_id": "t", 
+                    "name": "temperature", 
+                    "type": "Float" 
+                }
             ],
             "static_attributes": [
-                { "name":"refWeatherStation", "type": "Relationship", "value": "urn:ngsi-ld:WeatherStation:002"}
+                {            
+                    "name": "location",
+                    "type": "geo:json",
+                    "value": {
+                        "type": "Point",
+                        "coordinates": [36.21, -5.39]
+                    }
+                },
+                { 
+                    "name":"refWeatherStation", 
+                    "type": "Relationship", 
+                    "value": "urn:ngsi-ld:WeatherStation:002"
+                }
             ]
         },
         {
@@ -137,10 +148,26 @@ curl -s -o /dev/null -X POST \
             "transport":   "MQTT",
             "timezone":    "Europe/Madrid",
             "attributes": [
-                { "object_id": "t", "name": "temperature", "type": "Float" }
+                { 
+                    "object_id": "t", 
+                    "name": "temperature", 
+                    "type": "Float" 
+                }
             ],
             "static_attributes": [
-                { "name":"refWeatherStation", "type": "Relationship", "value": "urn:ngsi-ld:WeatherStation:003"}
+                {            
+                    "name": "location",
+                    "type": "geo:json",
+                    "value": {
+                        "type": "Point",
+                        "coordinates": [36.17, -5.35]
+                    }
+                },
+                { 
+                    "name":"refWeatherStation", 
+                    "type": "Relationship", 
+                    "value": "urn:ngsi-ld:WeatherStation:003"
+                }
             ]
         }
     ]
