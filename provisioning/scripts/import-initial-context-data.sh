@@ -230,4 +230,38 @@ curl -s -o /dev/null -X POST \
 
 printf "\tActuators created\n"
 
+#
+# Creación del suscriptor a los cambios de temperatura que enlaza con Telegraf, para envío a InfluxDb
+#
+
+curl -s -o /dev/null -X POST \
+  'http://orion:1026/v2/subscriptions/' \
+  -H 'Content-Type: application/json' \
+  -H 'fiware-service: iotupo' \
+  -H 'fiware-servicepath: /' \
+  -d '{
+            "description": "Test subscription",
+            "subject": {
+                "entities": [
+                    {
+                        "idPattern": ".*",
+                        "type": "TemperatureSensor"
+                    }
+                ]
+            },
+            "notification": {
+                "http": {
+                "url": "http://telegraf:8080/telegraf"
+            },
+            "attrsFormat": "keyValues",
+            "attrs": [
+                "temperature",
+                "refWeatherStation",
+                "TimeInstant"
+            ]
+        }
+    }'
+
+printf "\tSubscription created\n"
+
 echo -e " \033[1;32mdone\033[0m"

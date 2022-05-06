@@ -17,7 +17,7 @@ services:
     networks:
       - default
     ports:
-      - "${ORION_PORT}:${ORION_PORT}" # localhost:1026
+      - "${ORION_PORT}:${ORION_PORT}" 
     command: -dbhost mongo-db -logLevel DEBUG -noCache
     healthcheck:
       test: curl --fail -s http://orion:${ORION_PORT}/version || exit 1
@@ -33,7 +33,7 @@ services:
     expose:
       - "${MONGO_DB_PORT}"
     ports:
-      - "${MONGO_DB_PORT}:${MONGO_DB_PORT}" # localhost:27017 # localhost:27017
+      - "${MONGO_DB_PORT}:${MONGO_DB_PORT}" 
     networks:
       - default
     volumes:
@@ -59,7 +59,7 @@ services:
     expose:
       - "${IOTA_NORTH_PORT}"
     ports:
-      - "${IOTA_NORTH_PORT}:${IOTA_NORTH_PORT}" # localhost:4041
+      - "${IOTA_NORTH_PORT}:${IOTA_NORTH_PORT}" 
     environment:
       - IOTA_CB_HOST=orion # name of the context broker to update context
       - IOTA_CB_PORT=${ORION_PORT} # port the context broker listens on to update context
@@ -98,6 +98,48 @@ services:
     networks:
       - default
 
+  # Telegraf Agent
+  telegraf:
+    labels:
+      com.wordpress.fcosfc: 'fiware-iot-upo'
+    image: telegraf:${TELEGRAF_VERSION}
+    hostname: telegraf
+    container_name: telegraf
+    expose:
+      - "${TELEGRAF_PORT}"
+    ports:
+      - "${TELEGRAF_PORT}:${TELEGRAF_PORT}"
+    volumes:
+      - ./provisioning/config/telegraf.conf:/etc/telegraf/telegraf.conf
+    depends_on: 
+      - influxdb
+    networks:
+      - default
+
+  # InfluxDB Time Series Database
+  influxdb:
+    labels:
+      com.wordpress.fcosfc: 'fiware-iot-upo'
+    image: influxdb:${INFLUXDB_VERSION}
+    hostname: influxdb
+    container_name: influxdb
+    expose:
+      - "${INFLUXDB_PORT}"
+    ports:
+      - "${INFLUXDB_PORT}:${INFLUXDB_PORT}"
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+    environment:
+      - INFLUXDB_DB=${INFLUXDB_DB}
+      - INFLUXDB_HTTP_AUTH_ENABLED=false
+    networks:
+      - default
+    healthcheck:
+      test: "curl -f http://localhost:8086/ping"
+      interval: 3s
+      timeout: 10s
+      retries: 5
+      
 networks:
   default:
     labels:
@@ -110,3 +152,4 @@ volumes:
   mongo-db:
   mosquitto_data:
   mosquitto_log:
+  influxdb_data:
