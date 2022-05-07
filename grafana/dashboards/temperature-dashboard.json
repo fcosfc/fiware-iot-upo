@@ -41,15 +41,15 @@
             "axisLabel": "Grados Centígrados",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
+            "drawStyle": "line",
+            "fillOpacity": 5,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "stepAfter",
+            "lineInterpolation": "linear",
             "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
@@ -66,6 +66,8 @@
             }
           },
           "mappings": [],
+          "max": 45,
+          "min": -5,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -91,7 +93,7 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "celsius"
         },
         "overrides": []
       },
@@ -219,7 +221,7 @@
               }
             ]
           },
-          "unit": "none"
+          "unit": "celsius"
         },
         "overrides": []
       },
@@ -295,129 +297,6 @@
       ],
       "title": "Temperatura",
       "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "auto",
-            "displayMode": "auto",
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "dark-blue",
-                "value": null
-              },
-              {
-                "color": "super-light-blue",
-                "value": 5
-              },
-              {
-                "color": "green",
-                "value": 15
-              },
-              {
-                "color": "orange",
-                "value": 25
-              },
-              {
-                "color": "red",
-                "value": 35
-              }
-            ]
-          },
-          "unit": "celsius"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 6
-      },
-      "id": 6,
-      "options": {
-        "footer": {
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "weather_station.last"
-          }
-        ]
-      },
-      "pluginVersion": "8.5.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "limit": "10",
-          "measurement": "weather_station",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT last(\"temperature\") FROM \"weather_station\" WHERE (\"id\" = 'urn:ngsi-ld:TemperatureSensor:001') AND $timeFilter GROUP BY time($__interval) fill(null) LIMIT 10",
-          "rawQuery": false,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "temperature"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "id",
-              "operator": "=",
-              "value": "urn:ngsi-ld:TemperatureSensor:001"
-            }
-          ]
-        }
-      ],
-      "title": "Últimos datos recibidos",
-      "type": "table"
     }
   ],
   "refresh": "10s",
@@ -428,7 +307,7 @@
     "list": []
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
