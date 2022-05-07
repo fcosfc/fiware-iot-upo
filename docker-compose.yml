@@ -92,7 +92,7 @@ services:
     ports:
       - "${MOSQUITTO_PORT}:${MOSQUITTO_PORT}"
     volumes:
-      - ./provisioning/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
       - mosquitto_data:/mosquitto/data 
       - mosquitto_log:/mosquitto/log 
     networks:
@@ -110,7 +110,7 @@ services:
     ports:
       - "${TELEGRAF_PORT}:${TELEGRAF_PORT}"
     volumes:
-      - ./provisioning/config/telegraf.conf:/etc/telegraf/telegraf.conf
+      - ./config/telegraf.conf:/etc/telegraf/telegraf.conf
     depends_on: 
       - influxdb
     networks:
@@ -151,7 +151,7 @@ services:
       - ${GRAFANA_PORT}:${GRAFANA_PORT}
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./provisioning/config/grafana/:/etc/grafana/provisioning
+      - ./grafana/:/etc/grafana/provisioning
     depends_on:
       - influxdb
     networks:
