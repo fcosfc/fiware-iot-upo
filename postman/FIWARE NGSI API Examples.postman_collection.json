@@ -493,54 +493,6 @@
 			"name": "Subscriptions",
 			"item": [
 				{
-					"name": "Create a Subscription",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "fiware-service",
-								"value": "iotupo",
-								"type": "default"
-							},
-							{
-								"key": "fiware-servicepath",
-								"value": "/",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"description\": \"Test subscription\",\n  \"subject\": {\n    \"entities\": [\n      {\n        \"idPattern\": \".*\",\n        \"type\": \"TemperatureSensor\"\n      }\n    ]\n  },\n  \"notification\": {\n    \"http\": {\n      \"url\": \"http://testsubscriber:8080/test\"\n    },\n    \"attrsFormat\": \"keyValues\",\n    \"attrs\": [\n      \"TimeInstant\",\n      \"temperature\",\n      \"location\",\n      \"refWeatherStation\"\n    ]\n  }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{orion}}/v2/subscriptions/",
-							"protocol": "http",
-							"host": [
-								"{{orion}}"
-							],
-							"path": [
-								"v2",
-								"subscriptions",
-								""
-							],
-							"query": [
-								{
-									"key": "options",
-									"value": "keyValues",
-									"disabled": true
-								}
-							]
-						},
-						"description": "NGSI-LD subscriptions can be set up using the `/ngsi-ld/v1/subscriptions/` endpoint and in a similar manner to the\nNGSI-v2 `/v2/subscriptions` endpoint. The payload body is slightly different however. Firstly the linked data `@context`\nmust be present either as an attribute or in the `Link` header. If the `@context` is placed in the body the\n`Context-Type` header must state that the payload is `application/ld+json` - i.e. Linked Data plus JSON. The supplied\n`@context` will also be used when making notifications as part of the notification request.\n\nThe `type` of the NGSI-LD subscription request is always `type=Subscription`. The structure of the subscription has\nchanged. When setting up a subscription, there is no longer a separate `subject` section to the payload, entities to\nwatch and trigger conditions are now set at the same level as the `description` of the subscription.\n\n-   `condition.attrs` has been moved up a level and renamed to `watchedAttributes`\n-   `condition.expression` has been moved up a level and renamed to `q`\n\nThe `notification` section of the body states that once the conditions of the subscription have been met, a POST request\ncontaining all affected Shelf entities will be sent to the URL `http://tutorial:3000/subscription/low-stock-store001`.\nIt is now possible to amend the notification payload by requesting `notification.format=keyValues` and remove the\n`@context` from the notification body by stating `notification.endpoint.accept=application/json`. The `@context` is not\nlost, it is merely passed as a `Link` header. In summary, all of the flags within a subscription work in the same manner\nas a GET request to the context broker itself. If no flags are set, a full NGSI-LD response including the `@context` is\nreturned by default, and the payload can be reduced and amended by adding in further restriction"
-					},
-					"response": []
-				},
-				{
 					"name": "Retrieve all subscriptions",
 					"request": {
 						"method": "GET",
