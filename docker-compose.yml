@@ -135,10 +135,27 @@ services:
     networks:
       - default
     healthcheck:
-      test: "curl -f http://localhost:8086/ping"
-      interval: 3s
-      timeout: 10s
-      retries: 5
+      test: curl --fail -s http://influxdb:${INFLUXDB_PORT}/ping || exit 1
+      interval: 5s
+
+  # Grafana Visualization Tool
+  grafana:
+    labels:
+      com.wordpress.fcosfc: 'fiware-iot-upo'
+    image: grafana/grafana:${GRAFANA_VERSION}
+    hostname: grafana
+    container_name: grafana
+    expose:
+      - "${GRAFANA_PORT}"
+    ports:
+      - ${GRAFANA_PORT}:${GRAFANA_PORT}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./provisioning/config/grafana/:/etc/grafana/provisioning
+    depends_on:
+      - influxdb
+    networks:
+      - default
       
 networks:
   default:
@@ -153,3 +170,4 @@ volumes:
   mosquitto_data:
   mosquitto_log:
   influxdb_data:
+  grafana_data:

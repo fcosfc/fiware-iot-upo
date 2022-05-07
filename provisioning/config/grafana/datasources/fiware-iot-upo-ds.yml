@@ -1,0 +1,9 @@
+apiVersion: 1
+datasources:
+  - name: InfluxDB
+    type: influxdb
+    access: proxy
+    database: fiwareiotupo
+    url: http://influxdb:8086
+    isDefault: true
+    editable: true
