@@ -8,7 +8,7 @@
 #  		- Docker: https://docs.docker.com/engine/install/ 
 #       - Docker Compose: https://docs.docker.com/compose/
 #
-#  Uso: services.sh [create|start|stop]
+#  Uso: services.sh [start|stop]
 
 set -e
 
@@ -18,7 +18,7 @@ if (( $# == 2 )); then
 fi
 
 if (( $# < 1 )); then	echo "Illegal number of parameters"
-	echo "usage: services [create|start|stop]"
+	echo "usage: services [start|stop]"
 	exit 1
 fi
 
@@ -61,7 +61,7 @@ addDatabaseIndex () {
 
 displayServices () {
 	echo ""
-	docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" --filter name=fiware-*
+	docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" --filter "label=com.wordpress.fcosfc=fiware-iot-upo"
 	echo ""
 }
 
@@ -96,7 +96,7 @@ waitIoTAgent () {
 command="$1"
 case "${command}" in
 	"help")
-		echo "usage: services.sh [create|start|stop]"
+		echo "usage: services.sh [start|stop]"
 		;;
 	"start")
 		export $(cat .env | grep "#" -v)
@@ -116,15 +116,9 @@ case "${command}" in
 		export $(cat .env | grep "#" -v)
 		stoppingContainers
 		;;
-	"create")
-		export $(cat .env | grep "#" -v)
-		echo "Pulling Docker images"
-		docker pull curlimages/curl
-		${dockerCmd} pull
-		;;
 	*)
 		echo "Command not Found."
-		echo "usage: services.sh [create|start|stop]"
+		echo "usage: services.sh [start|stop]"
 		exit 127;
 		;;
 esac
