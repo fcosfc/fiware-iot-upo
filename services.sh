@@ -13,9 +13,6 @@
 set -e
 
 dockerCmd="docker-compose"
-if (( $# == 2 )); then
-    dockerCmd="docker-compose"
-fi
 
 if (( $# < 1 )); then	echo "Illegal number of parameters"
 	echo "usage: services [start|stop]"
