@@ -12,11 +12,23 @@
 
 set -e
 
-dockerCmd="docker-compose"
+DOCKER_CMD="docker-compose"
+USAGE="usage: services [help | start [test] | stop]"
 
-if (( $# < 1 )); then	echo "Illegal number of parameters"
-	echo "usage: services [start|stop]"
-	exit 1
+if [[ $# < 1 || $# > 2 ]]; then	
+	echo "Illegal number of parameters"
+	echo $USAGE
+	exit 1;
+fi
+
+if [[ $# == 2 && "$1" == "start" ]]; then
+	if [[ "$2" == "test" ]]; then
+		DOCKER_CMD="$DOCKER_CMD --profile test"
+	else
+		echo "Wrong parameter"
+		echo $USAGE
+		exit 1;
+	fi
 fi
 
 loadData () {
@@ -93,15 +105,15 @@ waitIoTAgent () {
 command="$1"
 case "${command}" in
 	"help")
-		echo "usage: services.sh [start|stop]"
+		echo $USAGE
 		;;
 	"start")
 		export $(cat .env | grep "#" -v)
 		stoppingContainers
 		echo -e "Starting containers: \033[1;34mOrion\033[0m and a \033[1mMongoDB\033[0m database."
 		echo -e "- \033[1;34mOrion\033[0m is the context broker"
-		echo ""
-		${dockerCmd} up -d --remove-orphans
+		echo ""		
+		$DOCKER_CMD up -d --remove-orphans
 		waitForMongo
 		addDatabaseIndex
 		waitForOrion
@@ -115,7 +127,7 @@ case "${command}" in
 		;;
 	*)
 		echo "Command not Found."
-		echo "usage: services.sh [start|stop]"
+		echo $USAGE
 		exit 127;
 		;;
 esac

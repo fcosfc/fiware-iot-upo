@@ -161,7 +161,19 @@ services:
       - influxdb
     networks:
       - default
-      
+
+  # Grafana Visualization Tool
+  mqtttestclient:
+    labels:
+      com.wordpress.fcosfc: 'fiware-iot-upo'
+    profiles:
+      - test
+    image: fcosfc/mqtt-client
+    hostname: mqtttestclient
+    container_name: mqtttestclient
+    volumes:
+      - ./scripts/arduino-simulator:/opt/mqtt-client
+
 networks:
   default:
     labels:
