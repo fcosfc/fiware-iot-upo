@@ -5,7 +5,13 @@
 #
 version: "3.8"
 services:
-  # Orion is the context broker
+  # 
+  # Context Broker de Fiware. Publica el API NGSI v2.
+  #
+  # Referencias: 
+  #   - http://fiware.github.io/specifications/ngsiv2/stable/
+  #   - https://github.com/telefonicaid/fiware-orion/ 
+  #
   orion:
     labels:
       com.wordpress.fcosfc: 'fiware-iot-upo'
@@ -23,7 +29,15 @@ services:
       test: curl --fail -s http://orion:${ORION_PORT}/version || exit 1
       interval: 5s
 
-  # Mongo DB repository
+  # 
+  # Repositorio documental para la información de contexto Fiware. 
+  #
+  # Notas:
+  #   - No almacena información histórica, con la evolución del sistema. Sólo guarda el estado actual.
+  #   - Es usado tanto por el Context Broker, como por el IoT Agent.
+  #
+  # Referencia: https://www.mongodb.com 
+  #
   mongo-db:
     labels:
       com.wordpress.fcosfc: 'fiware-iot-upo'
@@ -44,7 +58,12 @@ services:
         mongo --quiet $host/test --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)' && echo 0 || echo 1
       interval: 5s
   
-  # IoT Agent
+  # 
+  # Agente IoT que desacopla Fiware de los sensores y actuadores de Arduino.
+  # En este proyecto se usa el correspondiente al protocolo Ultralight 2.0
+  #
+  # Referencia: https://fiware-iotagent-ul.readthedocs.io/en/latest/
+  #
   iot-agent:
     labels:
       com.wordpress.fcosfc: 'fiware-iot-upo'
@@ -80,7 +99,13 @@ services:
     healthcheck:
       interval: 5s
 
-  # Mosquitto MQTT broker
+  # 
+  # Broker MQTT con el que interactuan tanto Arduino, como el IoT Agent.
+  #
+  # Referencias:
+  #   - https://mqtt.org/
+  #   - https://mosquitto.org/ 
+  #
   mosquitto:
     labels:
       com.wordpress.fcosfc: 'fiware-iot-upo'
@@ -92,13 +117,17 @@ services:
     ports:
       - "${MOSQUITTO_PORT}:${MOSQUITTO_PORT}"
     volumes:
-      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ../config/mosquitto.conf:/mosquitto/config/mosquitto.conf
       - mosquitto_data:/mosquitto/data 
       - mosquitto_log:/mosquitto/log 
     networks:
       - default
 
-  # Telegraf Agent
+  # 
+  # Agente que recibe los datos de la suscripciones a Fiware, los procesa y almacena en la base de datos de series
+  #
+  # Referencia: https://www.influxdata.com/time-series-platform/telegraf/ 
+  #
   telegraf:
     labels:
       com.wordpress.fcosfc: 'fiware-iot-upo'
@@ -110,13 +139,17 @@ services:
     ports:
       - "${TELEGRAF_PORT}:${TELEGRAF_PORT}"
     volumes:
-      - ./config/telegraf.conf:/etc/telegraf/telegraf.conf
+      - ../config/telegraf.conf:/etc/telegraf/telegraf.conf
     depends_on: 
       - influxdb
     networks:
       - default
 
-  # InfluxDB Time Series Database
+  # 
+  # Base de datos de series temporales que almacena los datos generados por los sensores.
+  #
+  # Referencia: https://www.influxdata.com/developers/ 
+  #
   influxdb:
     labels:
       com.wordpress.fcosfc: 'fiware-iot-upo'
@@ -138,7 +171,11 @@ services:
       test: curl --fail -s http://influxdb:${INFLUXDB_PORT}/ping || exit 1
       interval: 5s
 
-  # Grafana Visualization Tool
+  # 
+  # Herramienta de visualización de datos.
+  #
+  # Referencia: https://grafana.com/docs/grafana/latest/ 
+  #
   grafana:
     labels:
       com.wordpress.fcosfc: 'fiware-iot-upo'
@@ -156,13 +193,16 @@ services:
       - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/temperature-dashboard.json
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./grafana/:/etc/grafana/provisioning
+      - ../grafana/:/etc/grafana/provisioning
     depends_on:
       - influxdb
     networks:
       - default
 
-  # Grafana Visualization Tool
+  # 
+  # Cliente que simula Arduino en tests sin este sistema, interactuando con el broker MQTT.
+  #
+  #
   mqtttestclient:
     labels:
       com.wordpress.fcosfc: 'fiware-iot-upo'
@@ -172,8 +212,13 @@ services:
     hostname: mqtttestclient
     container_name: mqtttestclient
     volumes:
-      - ./scripts/arduino-simulator:/opt/mqtt-client
+      - ../scripts/arduino-simulator:/opt/mqtt-client
+    networks:
+      - default
 
+#
+# Red del montaje
+#
 networks:
   default:
     labels:
@@ -182,6 +227,9 @@ networks:
       config:
         - subnet: 172.18.1.0/24
 
+#
+# Volúmenes del montaje
+#
 volumes:
   mongo-db:
   mosquitto_data:

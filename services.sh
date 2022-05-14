@@ -108,12 +108,12 @@ case "${command}" in
 		echo $USAGE
 		;;
 	"start")
-		export $(cat .env | grep "#" -v)
+		export $(cat docker/.env | grep "#" -v)
 		stoppingContainers
 		echo -e "Starting containers: \033[1;34mOrion\033[0m and a \033[1mMongoDB\033[0m database."
 		echo -e "- \033[1;34mOrion\033[0m is the context broker"
 		echo ""		
-		$DOCKER_CMD up -d --remove-orphans
+		$DOCKER_CMD -f docker/docker-compose.yml up -d --remove-orphans
 		waitForMongo
 		addDatabaseIndex
 		waitForOrion
@@ -122,7 +122,7 @@ case "${command}" in
 		displayServices
 		;;
 	"stop")
-		export $(cat .env | grep "#" -v)
+		export $(cat docker/.env | grep "#" -v)
 		stoppingContainers
 		;;
 	*)
