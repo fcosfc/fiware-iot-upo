@@ -6,19 +6,19 @@ Proyecto asignatura Sistemas Empotrados y Ubícuos \
 
 ## Contenido
 
-* [Objetivo](/Objetivo).
-* [Introducción a FIWARE](/Introducción-a-FIWARE).
-* [Alcance de la PoC FIWARE](/Alcance-de-la-PoC-FIWARE).
-* [Arquitectura de la PoC FIWARE](/Arquitectura-de-la-PoC-FIWARE).
-  * [Requisitos](/Requisitos).
-  * [Uso](/Uso).
-  * [Pruebas mediante Postman](/Pruebas-mediante-Postman).
-* [Componentes](/Componentes).
-  * [FIWARE Context Broker](/FIWARE-Context-Broker).
-  * [FIWARE IoT Agent](/FIWARE-IoT-Agent).
-  * [Arduino](/Arduino).
-  * [Telegraf & InfluxDB](/Telegraf-&-InfluxDB).
-  * [Grafana](/Grafana).
+* [Objetivo](#objetivo).
+* [Introducción a FIWARE](#introducción-a-fiware).
+* [Alcance de la PoC FIWARE](#alcance-de-la-poc-fiware).
+* [Arquitectura de la PoC FIWARE](#arquitectura-de-la-poc-fiware).
+  * [Requisitos](#requisitos).
+  * [Uso](#uso).
+  * [Pruebas mediante Postman](#pruebas-mediante-postman).
+* [Componentes](#componentes).
+  * [FIWARE Context Broker](#fiware-context-broker).
+  * [FIWARE IoT Agent](#fiware-iot-agent).
+  * [Arduino](#arduino).
+  * [Telegraf & InfluxDB](#telegraf--influxdb).
+  * [Grafana](#grafana).
 
 ## Objetivo
 
@@ -75,6 +75,7 @@ Para crear la arquitectura de contenedores antes mencionada, se debe ejecutar el
 ```
 ./services.sh start
 ```
+
 Al iniciar, se carga una [información de contexto básica](/scripts/import-initial-context-data.sh) para que la PoC comience de una forma totalmente operativa.
 
 Si no se dispone de Arduino, se puede utilizar un contenedor de test, que simula las tareas encomendadas a éste, mediante el siguiente comando:
@@ -107,7 +108,7 @@ Se ha creado una [colección con diversas llamadas de prueba al API NGSI v2](/po
 
 ### FIWARE Context Broker
 
-Como se ha mencionado en el apartado [Introducción a FIWARE](/Introducción-a-FIWARE), el [Context Broker](https://github.com/telefonicaid/fiware-orion/) es el núcleo de esta tecnología, proporcionando una [API Restful](http://fiware.github.io/specifications/ngsiv2/stable/), simple pero poderosa, que permite realizar actualizaciones, consultas o suscribirse a cambios en la información de contexto. En la [colección Postman de la PoC](/postman/FIWARE%20NGSI%20API%20Examples.postman_collection.json) figuran algunos ejemplos de llamadas al API. Por otro lado, el [script de carga de datos inicial](/scripts/import-initial-context-data.sh) contiene las llamadas que crean el contexto básico de la PoC. Por ejemplo, estaciones meteorológicas:
+Como se ha mencionado en el apartado [Introducción a FIWARE](#introducción-a-fiware), el [Context Broker](https://github.com/telefonicaid/fiware-orion/) es el núcleo de esta tecnología, proporcionando una [API Restful](http://fiware.github.io/specifications/ngsiv2/stable/), simple pero poderosa, que permite realizar actualizaciones, consultas o suscribirse a cambios en la información de contexto. En la [colección Postman de la PoC](/postman/FIWARE%20NGSI%20API%20Examples.postman_collection.json) figuran algunos ejemplos de llamadas al API. Por otro lado, el [script de carga de datos inicial](/scripts/import-initial-context-data.sh) contiene las llamadas que crean el contexto básico de la PoC. Por ejemplo, estaciones meteorológicas:
 
 ![Estaciones meteorológicas](/images/screenshot-postman-retrieve-all-stations.png)
 
@@ -153,7 +154,7 @@ El [sketch Arduino](/arduino/fiware-iot-upo.ino) se conecta a una red WiFi y pub
 
 ![Log Arduino](/images/screenshot-arduino-log.png)
 
-Como se ha mencionado en el apartado [Uso](/Uso), si no se dispone del bundle Arduino, puede utilizarse la PoC mediante el contenedor simulador proporcionado. Ejecutando en una consola el comando:
+Como se ha mencionado en el apartado [Uso](#uso), si no se dispone del bundle Arduino, puede utilizarse la PoC mediante el contenedor simulador proporcionado. Ejecutando en una consola el comando:
 
 ```
 docker logs mqtttestclient
