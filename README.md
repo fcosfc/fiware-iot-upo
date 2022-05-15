@@ -36,7 +36,7 @@ El uso de este API estándar FIWARE por parte de las aplicaciones puede proporci
 
 * Desacoplamiento entre la solución y los dispositivos IoT.
 * Portabilidad, con aplicativos que funcionarán de igual forma en diversos entornos. Ciudades distintas, por ejemplo.
-* Posibilidad de desarrollo de una *economía de datos*, con organizaciones pertenecientes a diferentes dominios que pueden compartir datos de una manera estándar, en beneficio mútuo.
+* Posibilidad de desarrollo de una *economía de datos*, con organizaciones pertenecientes a diferentes dominios que pueden compartir datos de una manera estándar, en beneficio mutuo.
 
 La siguiente figura muestra la **arquitectura general de FIWARE**:
 ![Arquitectura general de FIWARE](images/fiware-general-architecture.png)
@@ -49,7 +49,7 @@ Esta prueba de concepto (PoC) cubre el siguiente alcance:
 
 1. **Integración de un dispositivo de baja potencia IoT *Arduino***, que proporciona datos sobre el entorno y puede actuar sobre el mismo.
 2. **Montaje de los componentes FIWARE**, que permiten gestionar el contexto y desacoplar los aplicativos de los dispositivos IoT.
-3. **Procesamiento, análisis y visualización de datos mediante componentes de terceros**, lo que demuestra la capacidad de FIWARE para integrarse con tecnologías ajenas al stack de habilitadores que propone.
+3. **Procesamiento, análisis y visualización de datos mediante componentes de terceros**, lo que demuestra la capacidad de FIWARE para integrarse con tecnologías ajenas al *stack* de habilitadores que propone.
 
 Al tratarse de una PoC, no se tratan aspectos que sí deben considerarse en un sistema de producción, como la elasticidad y solidez de la solución, ni la seguridad.
 
@@ -134,7 +134,7 @@ Este componente desacopla a los dispositivos físicos del resto de la arquitectu
 En la PoC se utiliza el [*IoT Agent for the Ultralight 2.0 protocol*](https://github.com/telefonicaid/iotagent-ul/blob/master/README.md), asociado a un *broker* MQTT [*Mosquitto*](https://mosquitto.org/), al *Context Broker* y a la BBDD *MongoDB*, como repositorio de información (revisar la [definición de contenedores](/docker/docker-compose.yml)). De forma que el *IoT Agent* recibe datos de *Arduino*, a través de *Mosquitto*, en un protocolo muy ligero, *Ultralight 2.0*, destinado para dispositivos de baja potencia, y los convierte en llamadas de actualización de contexto al API NGSI v2 estándar publicada por el *Context Broker*.
 Por otro lado, el *Context Broker* transmite llamadas de las aplicaciones al *Iot Agent* con comandos para los actuadores (formato NGSI), los convierte a *Ultralight 2.0* y los publica en el *broker* MQTT para que los lea y procese *Arduino*. De esta forma, los aplicativos finales se aislan de los dispositivos, utilizando sólo el [API NGSI v2](http://fiware.github.io/specifications/ngsiv2/stable/).
 
-la [colección *Postman* de la PoC](/postman/FIWARE%20NGSI%20API%20Examples.postman_collection.json) contiene diversos ejemplos con llamadas para interactuar tanto con el *IoT Agent* directamente, como con el contexto de sensores y actuadores en el *Context Broker*. Por ejemplo, obtener información sobre los sensores de temperatura cercanos a un punto geolocalizado:
+La [colección *Postman* de la PoC](/postman/FIWARE%20NGSI%20API%20Examples.postman_collection.json) contiene diversos ejemplos con llamadas para interactuar tanto con el *IoT Agent* directamente, como con el contexto de sensores y actuadores en el *Context Broker*. Por ejemplo, obtener información sobre los sensores de temperatura cercanos a un punto geolocalizado:
 
 ![Filtrar sensores por distancia](/images/screenshot-postman-filter-sensors-by-distance.png)
 
@@ -146,7 +146,7 @@ Por otro lado, en el [*script* de carga de datos inicial](/scripts/import-initia
 
 ## Arduino
 
-He utilizado para esta PoC el bundle [*Arduino* MKR1000](https://arduino.cl/producto/kit-arduino-mkr-iot/) propuesto en la asignatura, con un montaje que contiene un sensor de temperatura y, como actuador, una alarma:
+He utilizado para esta PoC el [*bundle Arduino* MKR1000](https://arduino.cl/producto/kit-arduino-mkr-iot/) propuesto en la asignatura, con un montaje que contiene un sensor de temperatura y, como actuador, una alarma:
 
 ![Montaje Arduino](/images/fiware-iot-upo-arduino.png)
 
@@ -170,7 +170,7 @@ Obtenemos el log de este contenedor de test, con registro de las temperaturas qu
 
 Como se ha mencionado antes, el *Context Broker* no almacena información histórica. Para ello, debemos suscribirnos a los cambios y utilizar otros componentes para procesar los datos recibidos.
 
-Los [habilitadores genéricos que propone FIWARE para almacenar datos de sensores en series temporales](https://fiware-tutorials.readthedocs.io/en/latest/time-series-data.html) son [*QuantumLeap*](https://quantumleap.readthedocs.io/en/latest/) y [*CrateDB*](https://crate.io/). Con objeto de demostrar la capacidad de FIWARE para integrarse con tecnologías ajenas al *stack* de habilitadores que propone, he optado por explorar la integración con la base de datos de series temporales (TSDB) [*InfluxDB*](https://docs.influxdata.com/influxdb/v2.2/), vía agente [*Telegraf*](https://docs.influxdata.com/telegraf/v1.22/). En este punto, señalar que (en el momento de escribir estas líneas) no existe, o al menos no he encontrado, **documentación específica** sobre cómo integrar FIWARE con *InfluxDB* & *Telegraf*, unas tecnologías que están teniendo gran éxito en el mercado en *timestamp* del *commit* en este *README.md*  
+Los [habilitadores genéricos que propone FIWARE para almacenar datos de sensores en series temporales](https://fiware-tutorials.readthedocs.io/en/latest/time-series-data.html) son [*QuantumLeap*](https://quantumleap.readthedocs.io/en/latest/) y [*CrateDB*](https://crate.io/). Con objeto de demostrar la capacidad de FIWARE para integrarse con tecnologías ajenas al *stack* de habilitadores que propone, he optado por explorar la integración con la base de datos de series temporales (TSDB) [*InfluxDB*](https://docs.influxdata.com/influxdb/v2.2/), vía agente [*Telegraf*](https://docs.influxdata.com/telegraf/v1.22/). En este punto, señalar que (en el momento de escribir estas líneas) no existe, o al menos no he encontrado, **documentación específica** sobre cómo integrar FIWARE con *InfluxDB* & *Telegraf*, unas tecnologías que están teniendo gran éxito en el mercado.  
 
 El primer paso para crear esta integración es [configurar *Telegraf*](/config/telegraf.conf) con el plugin [*http_listener_v2*](https://github.com/influxdata/telegraf/blob/release-1.22/plugins/inputs/http_listener_v2/README.md), que publica un servidor HTTP que recibe llamadas del *Context Broker* a través de la suscripción que se configura vía API NGSI v2:
 
