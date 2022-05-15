@@ -102,7 +102,7 @@ Se pueden parar y eliminar los componentes de la PoC mediante el siguiente coman
 
 ### Pruebas mediante Postman
 
-Se ha creado una [colección con diversas llamadas de prueba al API NGSI v2](/postman/FIWARE%20NGSI%20API%20Examples.postman_collection.json), que puede ser importada en la herramienta *Postman*. La siguiente figura muestra a la izquierda el conjunto de llamadas disponibles y un ejemplo, que proporciona los datos de la instalación del *Context Broker*:
+He creado una [colección con diversas llamadas de prueba al API NGSI v2](/postman/FIWARE%20NGSI%20API%20Examples.postman_collection.json), que puede ser importada en la herramienta *Postman*. La siguiente figura muestra a la izquierda el conjunto de llamadas disponibles y un ejemplo, que proporciona los datos de la instalación del *Context Broker*:
 
 ![Context Broker Version Information](/images/screenshot-postman-context-broker-version.png)
 
@@ -118,7 +118,7 @@ Y sensores de temperatura asociadas a éstas:
 
 ![Sensores de temperatura](/images/screenshot-postman-retrieve-all-temperature-sensors.png)
 
-Es recomendable que las entidades de contexto sigan un [*Smart Data Model* estándar](https://www.fiware.org/smart-data-models/). Al ser una PoC muy básica, en el presente trabajo se ha creado un modelo específico muy simple, que se puede ver en las llamadas de la [colección *Postman* de la PoC](/postman/FIWARE%20NGSI%20API%20Examples.postman_collection.json). Por ejemplo, estaciones meteorológicas:
+Es recomendable que las entidades de contexto sigan un [*Smart Data Model* estándar](https://www.fiware.org/smart-data-models/). Al ser una PoC muy básica, en el presente trabajo he creado un modelo específico muy simple, que se puede ver en las llamadas de la [colección *Postman* de la PoC](/postman/FIWARE%20NGSI%20API%20Examples.postman_collection.json). Por ejemplo, estaciones meteorológicas:
 
 ![Crear estación meteorológica](/images/screenshot-postman-create-one-station.png)
 
@@ -146,7 +146,7 @@ Por otro lado, en el [*script* de carga de datos inicial](/scripts/import-initia
 
 ## Arduino
 
-Se ha utilizado para esta PoC el bundle [*Arduino* MKR1000](https://arduino.cl/producto/kit-arduino-mkr-iot/) propuesto en la asignatura, con un montaje que contiene un sensor de temperatura y, como actuador, una alarma:
+He utilizado para esta PoC el bundle [*Arduino* MKR1000](https://arduino.cl/producto/kit-arduino-mkr-iot/) propuesto en la asignatura, con un montaje que contiene un sensor de temperatura y, como actuador, una alarma:
 
 ![Montaje Arduino](/images/fiware-iot-upo-arduino.png)
 
@@ -170,7 +170,7 @@ Obtenemos el log de este contenedor de test, con registro de las temperaturas qu
 
 Como se ha mencionado antes, el *Context Broker* no almacena información histórica. Para ello, debemos suscribirnos a los cambios y utilizar otros componentes para procesar los datos recibidos.
 
-Los [habilitadores genéricos que propone FIWARE para almacenar datos de sensores en series temporales](https://fiware-tutorials.readthedocs.io/en/latest/time-series-data.html) son [*QuantumLeap*](https://quantumleap.readthedocs.io/en/latest/) y [*CrateDB*](https://crate.io/). Con objeto de demostrar la capacidad de FIWARE para integrarse con tecnologías ajenas al *stack* de habilitadores que propone, se ha optado por explorar la integración con la base de datos de series temporales (TSDB) [*InfluxDB*](https://docs.influxdata.com/influxdb/v2.2/), vía agente [*Telegraf*](https://docs.influxdata.com/telegraf/v1.22/). En este punto, señalar que (en el momento de escribir estas líneas) no existe, o al menos no se ha encontrado, **documentación específica** sobre cómo integrar FIWARE con *InfluxDB* & *Telegraf*, unas tecnologías que están teniendo gran éxito en el mercado en *timestamp* del *commit* en este *README.md*  
+Los [habilitadores genéricos que propone FIWARE para almacenar datos de sensores en series temporales](https://fiware-tutorials.readthedocs.io/en/latest/time-series-data.html) son [*QuantumLeap*](https://quantumleap.readthedocs.io/en/latest/) y [*CrateDB*](https://crate.io/). Con objeto de demostrar la capacidad de FIWARE para integrarse con tecnologías ajenas al *stack* de habilitadores que propone, he optado por explorar la integración con la base de datos de series temporales (TSDB) [*InfluxDB*](https://docs.influxdata.com/influxdb/v2.2/), vía agente [*Telegraf*](https://docs.influxdata.com/telegraf/v1.22/). En este punto, señalar que (en el momento de escribir estas líneas) no existe, o al menos no he encontrado, **documentación específica** sobre cómo integrar FIWARE con *InfluxDB* & *Telegraf*, unas tecnologías que están teniendo gran éxito en el mercado en *timestamp* del *commit* en este *README.md*  
 
 El primer paso para crear esta integración es [configurar *Telegraf*](/config/telegraf.conf) con el plugin [*http_listener_v2*](https://github.com/influxdata/telegraf/blob/release-1.22/plugins/inputs/http_listener_v2/README.md), que publica un servidor HTTP que recibe llamadas del *Context Broker* a través de la suscripción que se configura vía API NGSI v2:
 
@@ -200,7 +200,7 @@ select * from weather_station
 
 ### Grafana
 
-Se ha creado un *dashboard* básico que lee los datos de la serie temporal almacenada en *InfluxDB*. Esta visualización [se provisiona automáticamente](/grafana/dashboards/temperature-dashboard.json) en el [*script* de *Docker Compose* de la PoC](/docker/docker-compose.yml), estando accesible en [http://localhost:3000](http://localhost:3000):
+He creado un *dashboard* básico que lee los datos de la serie temporal almacenada en *InfluxDB*. Esta visualización [se provisiona automáticamente](/grafana/dashboards/temperature-dashboard.json) en el [*script* de *Docker Compose* de la PoC](/docker/docker-compose.yml), estando accesible en [http://localhost:3000](http://localhost:3000):
 
 ![Grafana](images/screenshot-grafana.png)
 
