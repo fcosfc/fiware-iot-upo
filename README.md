@@ -39,6 +39,7 @@ El uso de este API estándar FIWARE por parte de las aplicaciones puede proporci
 * Posibilidad de desarrollo de una *economía de datos*, con organizaciones pertenecientes a diferentes dominios que pueden compartir datos de una manera estándar, en beneficio mutuo.
 
 La siguiente figura muestra la **arquitectura general de FIWARE**:
+
 ![Arquitectura general de FIWARE](images/fiware-general-architecture.png)
 
 Este [vídeo](https://www.youtube.com/watch?v=97JsnnpPLrA) proporciona una muy buena introducción a FIWARE. Los [tutoriales *Step-by-step for NGSI v2*](https://fiware-tutorials.readthedocs.io/en/latest/) son realmente interesantes a la hora de aprender esta tecnología.
