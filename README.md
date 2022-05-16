@@ -52,11 +52,12 @@ Esta prueba de concepto (PoC) cubre el siguiente alcance:
 2. **Montaje de los componentes FIWARE**, que permiten gestionar el contexto y desacoplar los aplicativos de los dispositivos IoT.
 3. **Procesamiento, análisis y visualización de datos mediante componentes de terceros**, lo que demuestra la capacidad de FIWARE para integrarse con tecnologías ajenas al *stack* de habilitadores que propone.
 
-Al tratarse de una PoC, no se tratan aspectos que sí deben considerarse en un sistema de producción, como la elasticidad y solidez de la solución, ni la seguridad.
+Al tratarse de una PoC, no se tratan aspectos que sí deben considerarse en un sistema de producción, como la elasticidad y solidez de la solución, o la seguridad.
 
 ## Arquitectura de la PoC FIWARE
 
 Esta Prueba de concepto utiliza [*Docker Compose*](/docker/docker-compose.yml) para montar la siguiente arquitectura:
+
 ![Arquitectura de la PoC](images/fiware-iot-upo-architecture.png)
 
 La PoC se compone de una placa *Arduino* con un sensor de temperatura y una alarma. El programa envía mediciones de temperatura al *broker* MQTT, tomando información del entorno, y se suscribe a comandos para hacer sonar la alarma, actuando sobre el entorno. Los datos de temperatura son recibidos en el *IoT Agent*, que los pasa al *Context Broker*. Éste no almacena información histórica, para ello es necesario una base de datos de series temporales, que captura la información mediante un agente. Los datos almacenados en BBDD son mostrados en un *dashboard* por la herramienta de visualización. Por último, mediante *Postman*, vía API NGSI v2, se puede explorar la información de contexto y enviar comandos para hacer sonar la alarma.
