@@ -67,7 +67,7 @@ La PoC se compone de una placa *Arduino* con un sensor de temperatura y una alar
 Para ejecutar esta PoC son necesarios los siguientes elementos tecnológicos:
 
 * [*Arduino* MKR1000](https://arduino.cl/producto/kit-arduino-mkr-iot/) (no es imprescindible, se proporciona un contenedor con un simulador).
-* [*Bash shell*](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) ([*Cygwin*](http://www.cygwin.com/) puede ser una alternativa para los usuarios de Microsoft Windows).
+* [*Bash shell*](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) (Los usuarios de Microsoft Windows pueden usar [*Cygwin*](http://www.cygwin.com/) para ejecutar scripts bajo este shell).
 * [*Docker*](https://www.docker.com/).
 * [*Docker Compose*](https://docs.docker.com/compose/).
 * [*Postman*](https://www.postman.com/).
